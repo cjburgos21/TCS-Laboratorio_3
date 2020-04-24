@@ -1,4 +1,6 @@
 #include <fstream>
+#include <string>
+#include <cstring>
 
 void obtenerDatos(istream &file,int nlines,int n,int mode,item* item_list){
     string line;
@@ -24,21 +26,23 @@ void obtenerDatos(istream &file,int nlines,int n,int mode,item* item_list){
 }
 
 void leerMallayCondiciones(mesh &m){
-    char filename[10];
+    string filename;
     ifstream file;
-    float k,Q;
+    float a,e,f;
     int nnodes,neltos,ndirich,nneu;
 
   do{
      cout << "Ingrese el nombre del archivo que contiene los datos de la malla: ";
      cin >> filename;
-     file.open(filename);
+     char cstr[filename.size() + 1];
+        strcpy(cstr, filename.c_str());
+    file.open(cstr);
     }while(!file);
 
-    file >> k >> Q;
+    file >> a >> e >> f;
     file >> nnodes >> neltos >> ndirich >> nneu;
 
-    m.setParameters(k,Q);
+    m.setParameters(a,e,f);
     m.setSizes(nnodes,neltos,ndirich,nneu);
     m.createData();
 
